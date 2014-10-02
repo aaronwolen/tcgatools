@@ -50,12 +50,13 @@ count_barcode_parts <- function(x) {
 #' 
 #' @export
 #' @param x character vector of barcodes
+#' @param verbose report barcode type match similarities
 #' 
 #' @examples
 #' barcodes <- c('TCGA-EJ-7321-11A-01R-2263-07', 'TCGA-EJ-7321-11A-01R-2263-07')
 #' parse_barcodes(barcodes)    
 
-parse_barcodes <- function(x) {
+parse_barcodes <- function(x, verbose = FALSE) {
   
   nparts <- count_barcode_parts(x)
   types <- .type[sapply(.type, length) == nparts]
@@ -66,6 +67,7 @@ parse_barcodes <- function(x) {
   type.hits <- lapply(type.hits, data.frame)
   type.hits <- lapply(type.hits, apply, 2, mean)
   type.hits <- do.call("rbind", type.hits)
+  if (verbose) cat(type.hits)
   type.hits <- rowSums(type.hits)
   
   if (all(type.hits != nparts))
