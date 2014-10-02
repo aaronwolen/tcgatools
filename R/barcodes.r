@@ -34,6 +34,12 @@
 .type$aliquot   <- c(.type$portion, .pattern["plate"], .pattern["center"])
 
 
+count_barcode_parts <- function(x) {
+  n <- str_count(x, "-") + 1
+  if (!all(diff(n) == 0))
+    stop("Barcodes must have the same number of components", call. = FALSE)
+  return(n[1])
+}
 
 
 #' Parse TCGA barcodes
@@ -51,18 +57,10 @@
 
 parse_barcodes <- function(x) {
   
-  bparts <- str_split(x, "-")
+  nparts <- count_barcode_parts(x)
+  types <- .type[sapply(.type, length) == nparts]
   
-  # Check number of components
-  nparts <- sapply(bparts, length)
-  if (!all(diff(nparts) == 0)) {
-    stop("Barcodes must have the same number of components")
-  }  else {
-    nparts <- nparts[1]
-    types <- .type[sapply(.type, length) == nparts]
-  }
-  
-  bparts <- data.frame(do.call("rbind", bparts), stringsAsFactors = FALSE)
+  bparts <- data.frame(str_split_fixed(x, "-", nparts), stringsAsFactors = FALSE)
   
   type.hits <- lapply(types, Map, f = str_detect, string = bparts)
   type.hits <- lapply(type.hits, data.frame)
