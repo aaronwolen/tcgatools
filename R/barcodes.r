@@ -10,7 +10,7 @@
   surgery     = "^S[[:digit:]]+$",
   radiation   = "^R[[:digit:]]+$",
   slide       = "^[TBM]S[[:alnum:]]$",
-  center      = "^[0-2][[:digit:]]$",
+  center      = "^[0-3][[:digit:]]$",
   plate       = "^[[:digit:]]$"
 )
 
