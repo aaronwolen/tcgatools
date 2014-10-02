@@ -11,7 +11,7 @@
   radiation   = "^R[[:digit:]]+$",
   slide       = "^[TBM]S[[:alnum:]]$",
   center      = "^[0-3][[:digit:]]$",
-  plate       = "^[[:digit:]]{4}$"
+  plate       = "^[[:alnum:]]{4}$"
 )
 
 # Barcode types
