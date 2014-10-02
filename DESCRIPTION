@@ -4,7 +4,6 @@ Title: TCGA tools
 Version: 0.1
 Date: 2014-09-17
 Author: Aaron Wolen <aaron@wolen.com>
-Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: A collection of simple tools for working with data from The Cancer
     Genome Atlas (TCGA).
 License: MIT
