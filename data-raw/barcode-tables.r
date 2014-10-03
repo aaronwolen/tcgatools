@@ -1,13 +1,9 @@
-# Download barcode tables from TCGA
+# Save barcode tables downloaded from TCGA 
 
-library(RCurl)
-library(XML)
+tables <- dir("data-raw/barcode-tables", full.names = TRUE)
+names(tables) <- sub(".csv", "", basename(tables))
 
-.barcodes <- getURL("https://tcga-data.nci.nih.gov/datareports/codeTablesReport.htm")
-.barcodes <- readHTMLTable(.barcodes, stringsAsFactors = FALSE)
-
-fix_colnames <- function(x) structure(x, names = make.names(names(x)))
-.barcodes <- lapply(.barcodes, fix_colnames)
+.barcodes <- lapply(tables, read.csv, na.strings = "", colClasses = "character")
 
 logicals <- c("Yes" = TRUE, "No" = FALSE)
 .barcodes$dataType$Available     <- .barcodes[.barcodes$dataType$Available]
