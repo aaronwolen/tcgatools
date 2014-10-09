@@ -22,10 +22,93 @@ test_that("sample pattern", {
 
 context("Parsed barcodes")
 
-test_that("Aliquote barcodes are parsed correctly", {
-    barcodes <- c('TCGA-EJ-7321-11A-01R-2263-07', 'TCGA-EJ-7321-11A-01R-2263-07')  
-    expect <- c("project", "tss", "participant", "sample", "portion", "plate", "center")
-    parsed <- parse_barcodes(barcodes)
-    expect_identical(nrow(parsed), length(barcodes))
+barcodes <- list(tss         = "TCGA-02",
+                 participant = "TCGA-02-0001",
+                 drug        = "TCGA-02-0001-C1",
+                 exam        = "TCGA-02-0001-E3124",
+                 surgery     = "TCGA-02-0001-S145",
+                 radiation   = "TCGA-02-0001-R2", 
+                 sample      = "TCGA-02-0001-01",
+                 portion     = "TCGA-02-0001-01C-01",
+                 shipped     = "TCGA-CM-5341-01A-21-1933-20",
+                 slide       = "TCGA-02-0001-01C-01-TS1",
+                 analyte     = "TCGA-02-0001-01C-01D",
+                 aliquote    = "TCGA-02-0001-01C-01D-0182-01")
+
+test_that("TSS barcode parsed correctly", {
+    expect <- names(.type$tss)
+    parsed <- parse_barcodes(barcodes$tss)
     expect_identical(names(parsed), expect)
 })
+
+test_that("Participant barcode parsed correctly", {
+  expect <- names(.type$participant)
+  parsed <- parse_barcodes(barcodes$participant)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Drug barcode parsed correctly", {
+  expect <- names(.type$drug)
+  parsed <- parse_barcodes(barcodes$drug)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Examination barcode parsed correctly", {
+  expect <- names(.type$exam)
+  parsed <- parse_barcodes(barcodes$exam)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Surgery barcode parsed correctly", {
+  expect <- names(.type$surgery)
+  parsed <- parse_barcodes(barcodes$surgery)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Radiation barcode parsed correctly", {
+  expect <- names(.type$radiation)
+  parsed <- parse_barcodes(barcodes$radiation)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Sample barcode parsed correctly", {
+  expect <- names(.type$sample)
+  parsed <- parse_barcodes(barcodes$sample)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Portion barcode parsed correctly", {
+  expect <- names(.type$portion)
+  parsed <- parse_barcodes(barcodes$portion)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Shipped portion barcode parsed correctly", {
+  expect <- names(.type$aliquot)
+  parsed <- parse_barcodes(barcodes$shipped)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Slide barcode parsed correctly", {
+  expect <- names(.type$slide)
+  parsed <- parse_barcodes(barcodes$slide)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Analyte barcode parsed correctly", {
+  expect <- names(.type$portion)
+  parsed <- parse_barcodes(barcodes$analyte)
+  expect_identical(names(parsed), expect)
+})
+
+test_that("Aliquot barcode parsed correctly", {
+  expect <- names(.type$aliquot)
+  parsed <- parse_barcodes(barcodes$aliquote)
+  expect_identical(names(parsed), expect)
+})
+
+
+
+
+
+
