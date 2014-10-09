@@ -2,7 +2,7 @@
 #' 
 #' Extract and expand information embedded in TCGA sample barcodes. Details
 #' about the barcode format is provided
-#' \url{https://wiki.nci.nih.gov/display/TCGA/TCGA+Barcode}{here}.
+#' \href{https://wiki.nci.nih.gov/display/TCGA/TCGA+Barcode}{here}.
 #' 
 #' @export
 #' @param x character vector of barcodes
@@ -10,7 +10,7 @@
 #' 
 #' @examples
 #' barcodes <- c('TCGA-EJ-7321-11A-01R-2263-07', 'TCGA-EJ-7321-11A-01R-2263-07')
-#' parse_barcodes(barcodes)   
+#' parse_barcodes(barcodes, annotate = TRUE)   
 
 parse_barcodes <- function(x, annotate = FALSE, verbose = FALSE) {
   
