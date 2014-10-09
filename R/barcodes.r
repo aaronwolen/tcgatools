@@ -33,15 +33,6 @@
 # 7 components 
 .type$aliquot   <- c(.type$portion, .pattern["plate"], .pattern["center"])
 
-
-count_barcode_parts <- function(x) {
-  n <- str_count(x, "-") + 1
-  if (!all(diff(n) == 0))
-    stop("Barcodes must have the same number of components", call. = FALSE)
-  return(n[1])
-}
-
-
 #' Parse TCGA barcodes
 #' 
 #' Extract and expand information embedded in TCGA sample barcodes. Details
