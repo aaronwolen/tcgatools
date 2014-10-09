@@ -78,5 +78,11 @@ parse_barcodes <- function(x, verbose = FALSE) {
   
   names(bparts) <- names(.type[[names(type.hits)[type.hits == nparts]]])
   
+  # extract vial and analyte
+  if ("sample" %in% names(bparts)) 
+    bparts <- extract_split(bparts, "sample", "vial")
+  if ("portion" %in% names(bparts)) 
+    bparts <- extract_split(bparts, "portion", "analyte")
+
   return(bparts)
 }

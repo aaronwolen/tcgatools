@@ -79,36 +79,35 @@ test_that("Sample barcode parsed correctly", {
 
 test_that("Portion barcode parsed correctly", {
   expect <- names(.type$portion)
+  expect <- c(head(expect, -1), "vial", "portion")
   parsed <- parse_barcodes(barcodes$portion)
   expect_identical(names(parsed), expect)
 })
 
 test_that("Shipped portion barcode parsed correctly", {
   expect <- names(.type$aliquot)
+  expect <- c(head(expect, -3), "vial", tail(expect, 3))
   parsed <- parse_barcodes(barcodes$shipped)
   expect_identical(names(parsed), expect)
 })
 
 test_that("Slide barcode parsed correctly", {
   expect <- names(.type$slide)
+  expect <- c(head(expect, -2), "vial", tail(expect, 2))
   parsed <- parse_barcodes(barcodes$slide)
   expect_identical(names(parsed), expect)
 })
 
 test_that("Analyte barcode parsed correctly", {
   expect <- names(.type$portion)
+  expect <- c(head(expect, -1), "vial", "portion", "analyte")
   parsed <- parse_barcodes(barcodes$analyte)
   expect_identical(names(parsed), expect)
 })
 
 test_that("Aliquot barcode parsed correctly", {
   expect <- names(.type$aliquot)
+  expect <- c(head(expect, -3), "vial", "portion", "analyte", "plate", "center")
   parsed <- parse_barcodes(barcodes$aliquote)
   expect_identical(names(parsed), expect)
 })
-
-
-
-
-
-
