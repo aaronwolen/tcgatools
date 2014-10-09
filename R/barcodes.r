@@ -54,9 +54,9 @@ count_barcode_parts <- function(x) {
 #' 
 #' @examples
 #' barcodes <- c('TCGA-EJ-7321-11A-01R-2263-07', 'TCGA-EJ-7321-11A-01R-2263-07')
-#' parse_barcodes(barcodes)    
+#' parse_barcodes(barcodes)   
 
-parse_barcodes <- function(x, verbose = FALSE) {
+parse_barcodes <- function(x, annotate = FALSE, verbose = FALSE) {
   
   nparts <- count_barcode_parts(x)
   types <- .type[sapply(.type, length) == nparts]
@@ -84,5 +84,23 @@ parse_barcodes <- function(x, verbose = FALSE) {
   if ("portion" %in% names(bparts)) 
     bparts <- extract_split(bparts, "portion", "analyte")
 
+  if (!annotate) return(bparts)
+  
+  .code <- list(
+    tss     = "tissueSourceSite",
+    sample  = "sampleType",
+    analyte = "portionAnalyte",
+    center  = "centerCode"
+  )
+    
+  codes <- unlist(.code[names(bparts)])
+  names(bparts)[match(names(codes), names(bparts))] <- codes
+
+  for (c in codes) {
+    i <- match(c, names(bparts))
+    values <- .barcodes[[c]][match(bparts[[c]], .barcodes[[c]]$Code), -1]
+    bparts <- data.frame(bparts[-i], values, row.names = NULL, stringsAsFactors = FALSE)
+  } 
+  
   return(bparts)
 }
