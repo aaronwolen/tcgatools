@@ -3,12 +3,14 @@
 \alias{parse_barcodes}
 \title{Parse TCGA barcodes}
 \usage{
-parse_barcodes(x, annotate = FALSE, verbose = FALSE)
+parse_barcodes(x, annotations = "none")
 }
 \arguments{
 \item{x}{character vector of barcodes}
 
-\item{verbose}{report barcode type match similarities}
+\item{annotations}{character string indicating whether barcodes should be
+  only be parsed (\code{annotations = "none"}), or annotated using either
+  \code{"short"} or \code{"long"} values}
 }
 \description{
 Extract and expand information embedded in TCGA sample barcodes. Details
@@ -16,7 +18,7 @@ about the barcode format is provided
 \href{https://wiki.nci.nih.gov/display/TCGA/TCGA+Barcode}{here}.
 }
 \examples{
-barcodes <- c('TCGA-EJ-7321-11A-01R-2263-07', 'TCGA-EJ-7321-11A-01R-2263-07')
-parse_barcodes(barcodes, annotate = TRUE)
+barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-11A-01D-2263-32')
+parse_barcodes(barcodes, annotations = "short")
 }
 
