@@ -1,14 +1,12 @@
 context("Barcode patterns")
 
 test_that("tss pattern", {
-  tss <- .barcodes$tissueSourceSite$TSS.Code
-  expect_true(all(str_detect(tss, .pattern$tss)))
+  expect_true(all(str_detect(.bc$tss$code, .pattern$tss)))
 })
 
 
 test_that("center pattern", {
-  centers <- .barcodes$centerCode$Code
-  expect_true(all(str_detect(centers, .pattern$center)))
+  expect_true(all(str_detect(.bc$center$code, .pattern$center)))
 })
 
 
