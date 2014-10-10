@@ -6,24 +6,29 @@
 #' 
 #' @export
 #' @param x character vector of barcodes
-#' @param verbose report barcode type match similarities
+#' @param annotations character string indicating whether barcodes should be
+#'   only be parsed (\code{annotations = "none"}), or annotated using either
+#'   \code{"short"} or \code{"long"} values
 #' 
 #' @examples
 #' barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-11A-01D-2263-32')
-#' parse_barcodes(barcodes, annotate = TRUE)   
+#' parse_barcodes(barcodes, annotations = "short")   
 
-parse_barcodes <- function(x, annotate = FALSE, labels = "long", verbose = FALSE) {
+parse_barcodes <- function(x, annotations = "none") {
+  
+  stopifnot(length(x) > 0 & is.character(x))
+  annotations <- match.arg(tolower(annotations), c("none", "short", "long"))
   
   nparts <- count_barcode_parts(x)
   types <- .type[sapply(.type, length) == nparts]
-  
   bparts <- data.frame(str_split_fixed(x, "-", nparts), stringsAsFactors = FALSE)
   
+  # identify type
   type.hits <- lapply(types, Map, f = str_detect, string = bparts)
   type.hits <- lapply(type.hits, data.frame)
   type.hits <- lapply(type.hits, apply, 2, mean)
   type.hits <- do.call("rbind", type.hits)
-  if (verbose) cat(type.hits)
+
   type.hits <- rowSums(type.hits)
   
   if (all(type.hits != nparts))
@@ -40,22 +45,22 @@ parse_barcodes <- function(x, annotate = FALSE, labels = "long", verbose = FALSE
   if ("portion" %in% names(bparts)) 
     bparts <- extract_split(bparts, "portion", "analyte")
 
-  if (!annotate) return(bparts)
+  if (annotations == "none") return(bparts)
 
   # tissue source site
-  bparts <- bc_annotate(bparts, .bc$tss, "tss", "code", labels)
+  bparts <- bc_annotate(bparts, .bc$tss, "tss", "code", annotations)
   
   # disease
-  if ("disease" %in% names(bparts) & labels == "short")
-    bparts <- bc_annotate(bparts, .bc$disease, "disease", "disease.long", labels)
+  if ("disease" %in% names(bparts) & annotations == "short")
+    bparts <- bc_annotate(bparts, .bc$disease, "disease", "disease.long", annotations)
   
   # analyte
   if ("analyte" %in% names(bparts))
-    bparts <- bc_annotate(bparts, .bc$analyte, "analyte", "code", labels)
+    bparts <- bc_annotate(bparts, .bc$analyte, "analyte", "code", annotations)
 
   # center
   if ("center" %in% names(bparts))
-    bparts <- bc_annotate(bparts, .bc$center, "center", "code", labels)
+    bparts <- bc_annotate(bparts, .bc$center, "center", "code", annotations)
 
   return(bparts)
 }
