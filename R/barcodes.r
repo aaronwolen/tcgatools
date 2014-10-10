@@ -41,53 +41,21 @@ parse_barcodes <- function(x, annotate = FALSE, labels = "long", verbose = FALSE
     bparts <- extract_split(bparts, "portion", "analyte")
 
   if (!annotate) return(bparts)
-  
 
-  # tissue source site ------------------------------------------------------
-  tss.match <- .bc$tss[match(bparts$tss, .bc$tss$code),]
-  tss.match <- subset(tss.match, select = -code)
+  # tissue source site
+  bparts <- bc_annotate(bparts, .bc$tss, "tss", "code", labels)
   
-  if (labels == "short")  
-    tss.match$disease <- .bc$disease$disease.short[match(tss.match$disease, .bc$disease$disease.long)]
-    # Can't shorten TSS names because some are missing from tables$centerCode
-    
-  if (labels == "long")
-    tss.match$bcr <- .bc$center$center.name.long[match(tss.match$bcr, .bc$center$center.name.short)]
+  # disease
+  if ("disease" %in% names(bparts) & labels == "short")
+    bparts <- bc_annotate(bparts, .bc$disease, "disease", "disease.long", labels)
   
-  i <- match("tss", names(bparts))
-  bparts <- data.frame(append(bparts[-i], tss.match, i), stringsAsFactors = FALSE)
-  
+  # analyte
+  if ("analyte" %in% names(bparts))
+    bparts <- bc_annotate(bparts, .bc$analyte, "analyte", "code", labels)
 
-  # analyte -----------------------------------------------------------------
-  if ("analyte" %in% names(bparts)) {
-    
-    if (labels == "short") 
-      bparts$analyte <- .bc$analyte$analyte.short[match(bparts$analyte, .bc$analyte$code)]
-    if (labels == "long")
-      bparts$analyte <- .bc$analyte$analyte.long[match(bparts$analyte, .bc$analyte$code)] 
-  }
-  
-
-  # center ------------------------------------------------------------------
-  if ("center" %in% names(bparts)) {
-    
-    center.match <- .bc$center[match(bparts$center, .bc$center$code),]
-    center.match <- subset(center.match, select = -code)
-    
-    rm <- switch(labels, short = "long", long = "short")
-    center.match <- center.match[, -which(grepl(rm, names(center.match)))]
-    names(center.match) <- str_replace(names(center.match), "(.name)?.(short|long)", "")
-    
-    i <- match("center", names(bparts))
-    bparts <- data.frame(append(bparts[-i], center.match, i), stringsAsFactors = FALSE)
-    
-  }
+  # center
+  if ("center" %in% names(bparts))
+    bparts <- bc_annotate(bparts, .bc$center, "center", "code", labels)
 
   return(bparts)
 }
-
-
-
-
-
-
