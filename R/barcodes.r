@@ -11,8 +11,8 @@
 #'   \code{"short"} or \code{"long"} values
 #' 
 #' @examples
-#' barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-11A-01D-2263-32')
-#' parse_barcodes(barcodes, annotations = "short")   
+#' barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-01A-01D-2263-32')
+#' parse_barcodes(barcodes, annotations = "long")
 
 parse_barcodes <- function(x, annotations = "none") {
   
@@ -54,6 +54,10 @@ parse_barcodes <- function(x, annotations = "none") {
   if ("disease" %in% names(bparts) & annotations == "short")
     bparts <- bc_annotate(bparts, .bc$disease, "disease", "disease.long", annotations)
   
+  # sample type
+  if ("sample" %in% names(bparts))
+    bparts <- bc_annotate(bparts, .bc$sample, "sample", "code", annotations)
+
   # analyte
   if ("analyte" %in% names(bparts))
     bparts <- bc_annotate(bparts, .bc$analyte, "analyte", "code", annotations)

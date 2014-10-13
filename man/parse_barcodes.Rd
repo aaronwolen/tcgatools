@@ -18,7 +18,7 @@ about the barcode format is provided
 \href{https://wiki.nci.nih.gov/display/TCGA/TCGA+Barcode}{here}.
 }
 \examples{
-barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-11A-01D-2263-32')
-parse_barcodes(barcodes, annotations = "short")
+barcodes <- c('TCGA-10-7321-11A-01R-2263-07', 'TCGA-Q5-7321-01A-01D-2263-32')
+parse_barcodes(barcodes, annotations = "long")
 }
 

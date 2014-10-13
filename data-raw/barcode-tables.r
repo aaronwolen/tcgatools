@@ -51,7 +51,11 @@ tables <- lapply(tables, lower_names)
   
   analyte = rename(tables$portionAnalyte,
                    analyte.long = definition) %>%
-            mutate(analyte.short = analytes[code])
+            mutate(analyte.short = analytes[code]),
+  
+  sample = rename(tables$sampleType,
+                  sample.short = short.letter.code,
+                  sample.long = definition)
 )
 
 save(.bc, file = "R/sysdata.rda")

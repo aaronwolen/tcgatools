@@ -23,17 +23,17 @@ Parse:
 parse_barcodes(barcodes)
 
 ##   project tss participant sample vial portion analyte plate center
-##      TCGA  G9        6361     01    A      21       R  1965     07
-##      TCGA  HC        7740     11    A      01       R  2118     07
+## 1    TCGA  G9        6361     01    A      21       R  1965     07
+## 2    TCGA  HC        7740     11    A      01       R  2118     07
 ```
 
 Annotate: 
 
 ```r
-parse_barcodes(barcodes, annotations = "short")
+parse_barcodes(barcodes, annotations = "long")
 ```
 
-|project |tss                               |disease |bcr |participant |sample |vial |portion |analyte |plate |center |center.type |
-|:-------|:---------------------------------|:-------|:---|:-----------|:------|:----|:-------|:-------|:-----|:------|:-----------|
-|TCGA    |Roswell Park                      |PRAD    |IGC |6361        |01     |A    |21      |RNA     |1965  |UNC    |CGCC        |
-|TCGA    |International Genomics Consortium |PRAD    |IGC |7740        |11     |A    |01      |RNA     |2118  |UNC    |CGCC        |
+|project |tss                               |disease                 |bcr |participant |sample              |vial |portion |analyte |plate |center                       |center.type                            |
+|:-------|:---------------------------------|:-----------------------|:---|:-----------|:-------------------|:----|:-------|:-------|:-----|:----------------------------|:--------------------------------------|
+|TCGA    |Roswell Park                      |Prostate adenocarcinoma |IGC |6361        |Primary solid Tumor |A    |21      |RNA     |1965  |University of North Carolina |Cancer Genomic Characterization Center |
+|TCGA    |International Genomics Consortium |Prostate adenocarcinoma |IGC |7740        |Solid Tissue Normal |A    |01      |RNA     |2118  |University of North Carolina |Cancer Genomic Characterization Center |
