@@ -21,7 +21,7 @@ parse_barcodes <- function(x, annotations = "none") {
   
   nparts <- count_barcode_parts(x)
   types <- .type[sapply(.type, length) == nparts]
-  bparts <- data.frame(str_split_fixed(x, "-", nparts), stringsAsFactors = FALSE)
+  bparts <- data.frame(str_split_fixed(x, "[\\.-]", nparts), stringsAsFactors = FALSE)
   
   # identify type
   type.hits <- lapply(types, Map, f = str_detect, string = bparts)
